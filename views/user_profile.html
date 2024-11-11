@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Profile</title>
+    <style>
+        /* Reset some default styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f7f8fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 70px; /* Adjusted for fixed header */
+        }
+        /* Header styling */
+        header {
+            background-color: #343a40;
+            color: #ecf0f1;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        header .user-menu {
+            position: relative;
+        }
+        header .user-menu button {
+            background-color: #007bff;
+            color: #ecf0f1;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        header .user-menu button:hover {
+            background-color: #0056b3;
+        }
+        header .dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #343a40;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 5px;
+            z-index: 1000;
+            width: 150px;
+        }
+        header .dropdown a {
+            display: block;
+            padding: 10px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        header .dropdown a:hover {
+            background-color: #007bff;
+        }
+        /* Profile details styling */
+        .content {
+            flex: 1;
+            padding: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+        #profileDetails p {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #555;
+        }
+        #profileDetails strong {
+            color: #333;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #1abc9c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #16a085;
+        }
+        /* Footer styling */
+        footer {
+            background-color: #343a40;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 14px;
+            position: relative;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header with title and user dropdown menu -->
+    <header>
+        <div class="logo">Auction Management System</div>
+        <div class="user-menu">
+            <button onclick="toggleDropdown()">User ▼</button>
+            <div class="dropdown" id="userDropdown">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="addProduct.html">Add Product</a>
+                <a href="viewProfile.html">View Profile</a>
+                <a href="logout.html">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile details section -->
+    <div class="content">
+        <h1>User Profile</h1>
+        <div id="profileDetails">
+            <p><strong>First Name:</strong> <span id="first_name"></span></p>
+            <p><strong>Last Name:</strong> <span id="last_name"></span></p>
+            <p><strong>Email:</strong> <span id="email"></span></p>
+            <p><strong>Date of Birth:</strong> <span id="dob"></span></p>
+            <p><strong>Phone Number:</strong> <span id="phone_no"></span></p>
+            <p><strong>Address:</strong> <span id="address"></span></p>
+            <p><strong>Gender:</strong> <span id="gender"></span></p>
+            <p><strong>ID Proof:</strong> <span id="id_proof"></span></p>
+            <p><strong>ID Number:</strong> <span id="id_number"></span></p>
+        </div>
+        <button onclick="location.href='editProfile.html?user_id=USER_ID'">Edit Profile</button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2024 Auction Management System. All rights reserved.
+    </footer>
+
+    <script>
+        // Toggle dropdown visibility
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+    
+        // Hide dropdown if clicked outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.user-menu button')) {
+                document.getElementById('userDropdown').style.display = 'none';
+            }
+        }
+    
+        // Function to get a cookie by name
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+    
+        // Fetch user data and display in profile
+        document.addEventListener('DOMContentLoaded', async () => {
+            const userId = getCookie('user_id'); // Get user_id from cookies
+    
+            if (!userId) {
+                alert('User ID is missing in the cookies. Please log in again.');
+                return;
+            }
+    
+            try {
+                const response = await fetch(`/user/profile/${userId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data');
+                }
+    
+                const user = await response.json();
+    
+                // Populate the profile details
+                document.getElementById('first_name').textContent = user.first_name;
+                document.getElementById('last_name').textContent = user.last_name;
+                document.getElementById('email').textContent = user.email;
+                document.getElementById('dob').textContent = user.dob;
+                document.getElementById('phone_no').textContent = user.phone_no;
+                document.getElementById('address').textContent = user.address;
+                document.getElementById('gender').textContent = user.gender;
+                document.getElementById('id_proof').textContent = user.id_proof;
+                document.getElementById('id_number').textContent = user.id_number;
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                alert('Error fetching profile data');
+            }
+        });
+    </script>
+    
+</body>
+</html>

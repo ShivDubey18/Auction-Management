@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #e9ecef;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .header {
+      background-color: #343a40;
+      color: #ffffff;
+      padding: 9px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 70px;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      position: relative;
+    }
+
+    .header-title {
+      margin: 0;
+      font-size: 24px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .login-buttons {
+      display: flex;
+      gap: 10px;
+      position: absolute;
+      /* Absolute position for alignment */
+      right: 20px;
+      /* Move buttons slightly to the left */
+    }
+
+    .login-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 30px 10px;
+      gap: 20px;
+      background-color: #e5e4e8;
+      border-radius: 10px;
+      border: 2px #177ce1;
+      margin-bottom: 20px;
+      margin-left: 20px;
+      margin-right: -20px;
+      margin-top: 40px;
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+      width: 100%;
+      padding: 30px;
+      border: 1px solid #007bff;
+      border-radius: 10px;
+      align-items: center;
+      background-color: #ffffff;
+      margin-top: 40px;
+    }
+
+    .image-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50%;
+    }
+
+    .image-container img {
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #007bff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      text-align: center;
+      font-size: 24px;
+      color: #343a40;
+    }
+
+    input {
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #343a40;
+      color: white;
+      width: 100%;
+      position: relative;
+      margin-top: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <h1 class="header-title">Auction Management System</h1>
+    <div class="login-buttons">
+      <button class="login-btn" onclick="window.location.href='/user_login'">User Login</button>
+      <button class="login-btn" onclick="window.location.href='/admin_login'">Admin Login</button>
+    </div>
+  </header>
+
+  <div class="content">
+    <div class="image-container">
+      <img src="images/second.jpg" alt="Auction" />
+    </div>
+    <div class="form-container">
+      <h2>Admin Login</h2>
+      <form id="admin-login-form" onsubmit="return loginAdmin(event);">
+        <input type="email" placeholder="Email" name="email" required>
+        <input type="password" placeholder="Password" name="password" required>
+        <button type="submit">Login</button>
+        <button type="button" onclick="window.location.href='/admin_register'">Don't have an account?</button>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2024 Auction Management System. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    async function loginAdmin(event) {
+      event.preventDefault();
+      const formData = new FormData(document.getElementById('admin-login-form'));
+      const data = Object.fromEntries(formData.entries());
+
+      const response = await fetch('http://localhost:3001/auth/Adminlogin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        alert('Login successful');
+        window.location.href = 'admin_dashboard';
+      } else {
+        alert(result.message);
+      }
+    }
+     </script>
+</body>
+
+</html>

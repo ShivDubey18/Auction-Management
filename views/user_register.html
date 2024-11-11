@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #e9ecef;
+      /* Same background as main page */
+      display: flex;
+      flex-direction: column;
+      /* Stack header, content, and footer */
+      min-height: 100vh;
+      /* Ensure footer stays at the bottom */
+    }
+
+    .header {
+      background-color: #343a40;
+      /* Dark gray for header */
+      color: #ffffff;
+      /* White text */
+      padding: 15px 20px;
+      /* Padding for header */
+      display: flex;
+      /* Flexbox for alignment */
+      align-items: center;
+      /* Center items vertically */
+      justify-content: space-between;
+      /* Space between title and buttons */
+      height: 70px;
+      /* Set height for the header */
+      width: 100%;
+      /* Full width */
+      position: fixed;
+      /* Make header fixed at top */
+      top: 0;
+      /* Align at the top */
+      z-index: 1000;
+      /* Ensure header stays on top */
+    }
+
+    .header-title {
+      margin: 0;
+      /* Remove default margin */
+      font-size: 24px;
+      /* Adjust font size */
+      text-align: center;
+      /* Center the text */
+      flex-grow: 1;
+      /* Allow the title to take available space */
+    }
+
+    .login-buttons {
+      display: flex;
+      /* Flexbox for button layout */
+      gap: 10px;
+      /* Space between buttons */
+      margin-right: 10px;
+      /* Space from the right edge */
+    }
+
+    .content {
+      flex: 1;
+      /* Takes up remaining space */
+      display: flex;
+      /* Use flexbox for layout */
+      justify-content: space-between;
+      /* Space between form and images */
+      align-items: flex-start;
+      /* Align items at the top */
+      padding: 80px 20px;
+      /* Adjusted padding to account for fixed header */
+      gap: 20px;
+      /* Space between image and form */
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      /* Stack form elements vertically */
+      max-width: 400px;
+      /* Maximum width for the form */
+      width: 100%;
+      /* Full width up to max */
+      padding: 30px;
+      /* Padding around the form */
+      border: 1px solid #ced4da;
+      /* Light gray border for form */
+      border-radius: 10px;
+      /* Rounded corners for the form */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      /* Subtle shadow */
+      background-color: #ffffff;
+      /* White background for the form */
+      margin-top: 40px;
+      /* Add space between header and form */
+      margin-left: 20px;
+      /* Move form slightly to the right */
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      /* Space below the title */
+      text-align: center;
+      /* Center the title */
+      font-size: 24px;
+      /* Font size for the title */
+      color: #343a40;
+      /* Dark text color */
+    }
+
+    input,
+    select,
+    textarea {
+      padding: 12px;
+      /* Increased padding for input fields */
+      margin-bottom: 15px;
+      /* Space between inputs */
+      border: 1px solid #ced4da;
+      /* Light gray border */
+      border-radius: 5px;
+      /* Rounded corners */
+      font-size: 16px;
+      /* Font size for inputs */
+      width: 100%;
+      /* Full width for inputs */
+    }
+
+    button {
+      background-color: #007bff;
+      /* Blue button */
+      color: white;
+      border: none;
+      padding: 12px;
+      /* Increased padding for buttons */
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      /* Rounded corners */
+      transition: background-color 0.3s ease;
+      width: 100%;
+      /* Full width for buttons */
+      margin-top: 10px;
+      /* Space above the button */
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      /* Darker blue on hover */
+    }
+
+    .image-container {
+      display: flex;
+      flex-direction: column;
+      /* Stack images vertically */
+      align-items: center;
+      /* Center images horizontally */
+      width: 50%;
+      /* Set width for the image container */
+      gap: 10px;
+      /* Space between images */
+      margin-top: 40px;
+      /* Add space above images */
+    }
+
+    .image-container img {
+      width: 400px;
+      /* Set width for images */
+      height: 400px;
+      /* Set height for images */
+      border-radius: 50%;
+      /* Make images circular */
+      object-fit: cover;
+      /* Cover the container without distorting the image */
+      border: 2px solid #007bff;
+      /* Optional border for images */
+    }
+
+    .footer {
+      text-align: center;
+      padding: 15px;
+      /* Set padding for footer */
+      background-color: #343a40;
+      /* Dark gray for footer */
+      color: white;
+      width: 100%;
+      /* Full width */
+      position: relative;
+      /* Ensure footer is positioned correctly */
+      margin-top: auto;
+      /* Push footer to the bottom */
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <h1 class="header-title">Auction Management System</h1>
+    <div class="login-buttons">
+      <button class="login-btn" onclick="window.location.href='/user_login'">User Login</button>
+      <button class="login-btn" onclick="window.location.href='/admin_login'">Admin Login</button>
+    </div>
+  </header>
+
+  <div class="content">
+    <div class="form-container">
+      <h2>User Registration</h2>
+      <!-- <form id="user-register-form" onsubmit="return registerUser(event);"> -->
+      <form id="user-register-form">
+        <input type="text" name="firstname" placeholder="First Name" required>
+        <input type="text" name="lastname" placeholder="Last Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+        <select name="id_proof" required>
+          <option value="" disabled selected>Select ID Proof</option> <!-- Default option -->
+          <option value="Aadhar">Aadhar</option>
+          <option value="Passport">Passport</option>
+          <option value="Driver's License">Driver's License</option>
+        </select>
+        <input type="text" name="id_number" placeholder="ID Number" required>
+        <input type="date" name="dob" required>
+        <input type="text" name="phone_no" placeholder="Phone Number" required>
+        <textarea name="address" placeholder="Address" required></textarea>
+        <select name="gender" required>
+          <option value="" disabled selected>Select Gender</option> <!-- Default option for gender -->
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+        <button type="submit" onclick="window.location.href='/user_login'">Register</button>
+      </form>
+    </div>
+
+    <div class=" image-container">
+      <img src="images/first.jpg" alt="Image 1" /> <!-- Replace with your actual image path -->
+      <img src="images/second.jpg" alt="Image 2" /> <!-- Replace with your actual image path -->
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2024 Auction Management System. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // async function registerUser(event) {
+    //   event.preventDefault(); // Prevent the form from submitting normally
+
+    //   const form = document.getElementById('user-register-form');
+    //   const formData = new FormData(form);
+    //   const data = Object.fromEntries(formData.entries());
+
+    //   // Basic password match validation
+    //   if (data.password !== data.confirm_password) {
+    //     alert('Passwords do not match. Please try again.');
+    //     return;
+    //   }
+
+    //   try {
+    //     // Send the form data to the server
+    //     const response = await fetch('/registerUser', {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify(data),
+    //     });
+
+    //     const result = await response.json();
+
+    //     if (response.ok) {
+    //       alert(result.message || 'Registration successful! Please login.');
+    //       window.location.href = '/user_login'; // Redirect to login page
+    //     } else {
+    //       alert(result.message || 'Registration failed. Please try again.');
+    //     }
+    //   } catch (error) {
+    //     console.error('Error:', error);
+    //     alert('An error occurred. Please try again later.');
+    //   }
+    // }
+
+    // // Attach event listener to the form submission
+    // // document
+    // //   .getElementById('user-register-form')
+    // //   .addEventListener('submit', registerUser);
+
+    const form = document.querySelector("#user-register-form");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(event.target); // Get form data
+      const formEntries = Object.fromEntries(formData.entries()); // Convert to an object
+
+      if (formEntries.password !== formEntries.confirm_password) {
+        alert('Passwords do not match. Please try again.');
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:3001/auth/registerUser", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formEntries)
+        });
+
+        if (response.ok) {
+          console.log("User registered successfully");
+           alert("User registered successfully");
+        } else {
+          console.error("Error registering user:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    });
+
+  </script>
+</body>
+
+</html>

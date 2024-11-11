@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Submission</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin-top: 100px;
+            padding: 0;
+            color: #343a40;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+            gap: 40px;
+            /* Increased gap between form and image container */
+        }
+
+        .form-container {
+            flex: 1;
+            max-width: 450px;
+            background-color: #ffffff;
+            padding: 30px;
+            /* Increased padding for form */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #e9ecef;
+            padding: 1px 30px;
+            /* Increased padding for image container */
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+            width: 97%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-title {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .header-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 150px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .user-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 28px;
+            /* Increased font size */
+            color: #000000;
+            /* Added color */
+            text-transform: uppercase;
+            /* Uppercase text */
+            letter-spacing: 1px;
+            /* Spacing between letters */
+            border-bottom: 2px solid #838383;
+            /* Underline effect */
+            padding-bottom: 10px;
+            /* Space below the heading */
+        }
+
+        form label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        form input,
+        select,
+        textarea,
+        button {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #343a40;
+            color: white;
+            width: 100%;
+        }
+
+        /* Image styles */
+        .image-placeholder {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        /* Hide category image initially */
+        #categoryImage {
+            display: none;
+            margin-top: 20px;
+            /* Added margin for spacing */
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <h1 class="header-title">Auction Management System</h1>
+        <div class="header-buttons">
+            <button class="button wallet-button">Wallet Balance</button>
+            <div class="user-dropdown">
+                <button class="button dropdown-button">User</button>
+                <div class="dropdown-content">
+                    <a href="#">Dashboard</a>
+                    <a href="/user_profile">View Profile</a>
+                    <a href="#">Add product</a>
+                    <a href="/">Logout</a>
+
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <h2>Fill Form to Upload a Product</h2>
+
+    <div class="container">
+        <div class="form-container">
+            <form action="/product/submit" method="POST" id="productForm" enctype="multipart/form-data">
+                <label for="product_name">Product Name:</label>
+                <input type="text" id="product_name" name="product_name" required>
+
+                <label for="owner_name">Owner Name:</label>
+                <input type="text" id="owner" name="owner" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="category">Category:</label>
+                <select id="category" name="category" required onchange="displayFields()">
+                    <option value="">Select Category</option>
+                    <option value="car">Car</option>
+                    <option value="painting">Painting</option>
+                </select>
+
+                <div id="carFields" style="display:none;">
+                    <label for="model">Model:</label>
+                    <input type="text" id="model" name="model">
+
+                    <label for="company">Company:</label>
+                    <input type="text" id="company" name="company">
+
+                    <label for="fuel_type">Fuel Type:</label>
+                    <input type="text" id="fuel_type" name="fuel_type">
+
+                    <label for="car_color">Car Color:</label>
+                    <input type="text" id="car_color" name="car_color">
+
+                    <label for="kilometer_run">Kilometers Run:</label>
+                    <input type="number" id="kilometer_run" name="kilometer_run">
+
+                    <label for="base_price">Base price:</label>
+                    <input type="number" id="base_price" name="base_price">
+
+                    <label for="description">Description (Max 50 words):</label>
+                    <textarea id="description" name="description" maxlength="250"></textarea>
+                </div>
+
+                <div id="paintingFields" style="display:none;">
+                    <label for="art_type">Art Type:</label>
+                    <input type="text" id="art_type" name="art_type">
+
+                    <label for="artist_name">Artist Name:</label>
+                    <input type="text" id="artist_name" name="artist_name">
+                    <label for="painting_age">Base price:</label>
+                    <input type="number" id="painting_age" name="painting_age">
+
+                    <label for="painting_age">Painting Age:</label>
+                    <input type="number" id="painting_age" name="painting_age">
+
+                    <label for="description">Description (Max 50 words):</label>
+                    <textarea id="description" name="description" maxlength="250"></textarea>
+                </div>
+
+                <!-- New image upload field for both categories -->
+                <label for="product_image">Upload an Image of Product:</label>
+                <input type="file" id="product_image" name="product_image" accept="image/*" required>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="image-container">
+            <!-- Always visible image -->
+            <img src="images/second.jpg" class="image-placeholder" alt="Default Image" id="defaultImage">
+            <!-- Category-based image -->
+            <img id="categoryImage" class="image-placeholder" src="" alt="Category Image"
+                style="display: none; margin-top: 150px;"> <!-- Added margin for spacing -->
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 Auction Management System. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const form = document.querySelector("#productForm");
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(event.target); // Get form data
+            const formEntries = Object.fromEntries(formData.entries()); // Convert to an object
+
+            try {
+                const response = await fetch("http://localhost:3001/product/upload", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formEntries)
+                });
+
+                if (response.ok) {
+                    console.log("Product uploaded successfully");
+                    alert("product uploaded successfully");
+                } else {
+                    console.error("Error uploading product:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Fetch error:", error);
+            }
+        });
+        function displayFields() {
+            const category = document.getElementById('category').value;
+            const carFields = document.getElementById('carFields');
+            const paintingFields = document.getElementById('paintingFields');
+            const categoryImage = document.getElementById('categoryImage');
+
+            carFields.style.display = category === 'car' ? 'block' : 'none';
+            paintingFields.style.display = category === 'painting' ? 'block' : 'none';
+
+            if (category === 'car') {
+                categoryImage.src = 'images/car.jpg';
+                categoryImage.alt = 'Car Image';
+                categoryImage.style.display = 'block';
+            } else if (category === 'painting') {
+                categoryImage.src = 'images/paint.jpg';
+                categoryImage.alt = 'Painting Image';
+                categoryImage.style.display = 'block';
+            } else {
+                categoryImage.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>

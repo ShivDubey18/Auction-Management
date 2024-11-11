@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Header and Footer Styles */
+        header,
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            z-index: 1000;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .header-left h1,
+        .header-right {
+            margin: 5;
+        }
+
+        .header-right .dropdown {
+            position: relative;
+        }
+
+        .header-right .dropbtn {
+            background-color: blue;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .header-right .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 100px;
+            z-index: 1;
+            left: -50px;
+        }
+
+        .header-right .dropdown.show .dropdown-content {
+            display: block;
+        }
+
+        .header-right .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .header-right .dropdown-content a:hover {
+            background-color: #484ee3;
+        }
+
+        /* Main Content Styling */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+            margin-top: 100px;
+            margin-bottom: 60px;
+        }
+
+        .container {
+            background-image: url(bg.jpg);
+            background-size: cover;
+            background-position: center;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* display: flex; */
+            gap: 20px;
+        }
+
+        /* Image Section */
+        .image-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f8f8;
+            padding: 20px;
+        }
+
+        .product-image {
+            width: 100%;
+            max-width: 360px;
+            border-radius: 8px;
+
+        }
+
+        /* Details Section */
+        .details-section {
+            flex: 2;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        h1,
+        h3 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .details {
+            flex: 1;
+        }
+
+        .detail-item {
+            margin-bottom: 10px;
+        }
+
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .actions button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .accept-btn {
+            background-color: green;
+            color: white;
+        }
+
+        #submitBtn {
+            background-color: green;
+            color: white;
+            padding: 1em;
+            border-radius: 10px;
+            border: none;
+        }
+
+        .reject-btn {
+            background-color: red;
+            color: white;
+        }
+
+        .auction-options {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .auction-options input {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="header-left">
+            <h1>Auction Management System</h1>
+        </div>
+        <div class="header-right">
+            <div class="dropdown" id="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown()">Admin</button>
+                <div class="dropdown-content">
+                    <a href="/admin/dashboard">Dashboard</a>
+                    <a href="/admin/view-profile">View Profile</a>
+                    <a href="index">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main>
+        <div class="container">
+            <!-- Left Side: Product Image -->
+            <div class="image-section">
+                <img class="product-image" src="/uploads/<%= product.image %>" alt="<%= product.product_name %>">
+            </div>
+
+            <!-- Right Side: Product Details -->
+            <div class="details-section">
+                <div>
+                    <h1>
+                        <%= product.product_name %>
+                    </h1>
+                    <h3>Details</h3>
+                    <div class="details">
+                        <div class="detail-item"><strong>Owner:</strong>
+                            <%= product.owner %>
+                        </div>
+                        <div class="detail-item"><strong>Base Price:</strong> Rs.<%= product.base_price %>
+                        </div>
+                        <div class="detail-item"><strong>Email:</strong>
+                            <%= product.email %>
+                        </div>
+                        <div class="detail-item"><strong>Description:</strong>
+                            <%= product.product_description %>
+                        </div>
+
+                        <!-- Car Specific Details -->
+                        <% if (product.category==="car" ) { %>
+                            <div id="car-details">
+                                <div class="detail-item"><strong>Model Name:</strong>
+                                    <%= product.model %>
+                                </div>
+                                <div class="detail-item"><strong>Company:</strong>
+                                    <%= product.company %>
+                                </div>
+                                <div class="detail-item"><strong>Fuel Type:</strong>
+                                    <%= product.fuel_type %>
+                                </div>
+                                <div class="detail-item"><strong>Car Color:</strong>
+                                    <%= product.car_color %>
+                                </div>
+                                <div class="detail-item"><strong>Kilometer Run:</strong>
+                                    <%= product.kilometer_run %> km
+                                </div>
+                            </div>
+                            <% } %>
+
+                                <!-- Painting Specific Details -->
+                                <% if (product.category==="painting" ) { %>
+                                    <div id="painting-details">
+                                        <div class="detail-item"><strong>Painting Type:</strong>
+                                            <%= product.art_type %>
+                                        </div>
+                                        <div class="detail-item"><strong>Artist Name:</strong>
+                                            <%= product.artist_name %>
+                                        </div>
+                                        <div class="detail-item"><strong>Painting Age:</strong>
+                                            <%= product.painting_age %> years
+                                        </div>
+                                    </div>
+                                    <% } %>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button class="accept-btn" onclick="showAuctionOptions()">Accept</button>
+                    <button class="reject-btn" onclick="rejectAuction()">Reject</button>
+                </div>
+                
+                <!-- Hidden Forms to Submit on Accept or Reject
+                <form id="accept-form"  method="POST" style="display: none;">
+                    <input type="hidden" name="productId" id="accept-product-id">
+                </form>
+                
+                <form id="reject-form"  method="POST" style="display: none;">
+                    <input type="hidden" name="productId" id="reject-product-id">
+                </form> -->
+
+                <!-- Auction Options (Shown on Accept) -->
+                <div class="auction-options" id="auction-options">
+                    <h3>Auction Details</h3>
+                    <input type="date" id="auction-date" placeholder="Select Auction Date">
+                    <input type="time" id="auction-start-time" placeholder="Select Start Time">
+                    <input type="time" id="auction-end-time" placeholder="Select End Time">
+                    <center>
+                        <button id="submitBtn">Submit</button>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 Auction Management System. All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.classList.toggle('show');
+        }
+        window.addEventListener('click', function (event) {
+            const dropdown = document.getElementById('dropdown');
+            const dropbtn = document.querySelector('.dropbtn');
+            if (!dropdown.contains(event.target) && event.target !== dropbtn) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        function showAuctionOptions() {
+            document.getElementById('auction-options').style.display = 'block';
+        }
+
+        function rejectAuction() {
+            alert('Product Rejected');
+           window.location.href='/admin_dashboard';
+        }
+    </script>
+</body>
+
+</html>

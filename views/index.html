@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auction Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding-top: 60px; /* Offset for the fixed header */
+      background-color: #e9ecef;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .header {
+      background-color: #343a40;
+      color: #ffffff;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 97%;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-title {
+      flex-grow: 1;
+      text-align: center;
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .login-buttons {
+      margin-top: 5px;
+      display: flex;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-left: 5px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+      text-align: center;
+      background-color: #eaeaea;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin: 20px;
+    }
+
+    .images {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .images img {
+      max-width: 300px;
+      margin: 0 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border: 3px solid black;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #343a40;
+      color: white;
+      position: relative;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1 class="header-title">Auction Management System</h1>
+    <div class="login-buttons">
+      <button onclick="userLogin()">User Login</button>
+      <button onclick="adminLogin()">Admin Login</button>
+    </div>
+  </header>
+
+  <div class="content">
+    <h2>Welcome to the Online Auction!</h2>
+    <p>
+      Participate in thrilling auctions from the comfort of your home. Our platform allows you to bid on a wide range of items, from collectibles to electronics. 
+      Enjoy a seamless bidding experience with real-time updates, secure transactions, and a user-friendly interface. 
+      Join us today and discover the excitement of online bidding!
+    </p>
+
+    <div class="images">
+      <img src="images/three.webp" alt="Auction Image 1">
+      <img src="images/second.jpg" alt="Auction Image 2">
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2024 Auction Management System. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    function userLogin() {
+      window.location.href = '/user_login';
+    }
+
+    function adminLogin() {
+      window.location.href = '/admin_login';
+    }
+  </script>
+</body>
+</html>

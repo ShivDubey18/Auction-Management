@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: #333;
+            color: white;
+            z-index: 1000;
+        }
+
+        .header-left h1 {
+            margin: 0;
+        }
+
+        .header-right .dropdown {
+            position: relative;
+        }
+
+        .header-right .dropbtn {
+            background-color: blue;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Dropdown Styles */
+        .header-right .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            z-index: 1;
+            left: -20px;
+        }
+
+        .header-right .dropdown.show .dropdown-content {
+            display: block;
+        }
+
+        .header-right .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .header-right .dropdown-content a:hover {
+            background-color: #444;
+        }
+
+        /* Body Styles */
+        main {
+            padding: 20px;
+            margin-top: 80px;
+            min-height: 80vh;
+            padding-bottom: 60px;
+        }
+
+        .page-heading {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .section-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        section {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Scrollable Products */
+        .products-slider {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px;
+            scroll-behavior: smooth;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            border-radius: 8px;
+            min-width: 33%;
+            max-width: 33%;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-card h3 {
+            margin: 10px 0;
+        }
+
+        .product-card p {
+            font-size: 14px;
+            color: #888;
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-left">
+            <h1>Auction Management System</h1>
+        </div>
+        <div class="header-right">
+            <div class="dropdown" id="dropdown">
+                <button class="dropbtn" onclick="toggleDropdown()">Admin</button>
+                <div class="dropdown-content">
+                    <a href="/admin/dashboard">Dashboard</a>
+                    <a href="/admin/view-profile">View Profile</a>
+                    <a href="/admin/logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Body Section -->
+    <main>
+        <div class="page-heading">
+            PENDING PRODUCTS FOR APPROVAL
+        </div>
+
+        <div class="section-container">
+            <!-- Cars Section -->
+            <section id="cars-section">
+                <h2>Cars</h2>
+                <div id="cars-products" class="products-slider">
+                    <!-- Sample car images -->
+                    <!-- <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZnwHfpE-CBKaVt3XV3acZZ8bjxwkUSG5ZHg&s" alt="Car 1">
+                        <h3>Car 1</h3>
+                        <p>Base Price: $10000</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1680140682516-63f8472699b0?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3" alt="Car 2">
+                        <h3>Car 2</h3>
+                        <p>Base Price: $15000</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Y2FyJTIwd2FsbHBhcGVyc3xlbnwwfHwwfHx8MA%3D%3D" alt="Car 3">
+                        <h3>Car 3</h3>
+                        <p>Base Price: $20000</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUYTIOSjXdMt3DYaPYcotubIToklaxZRn6ac4wCq-Vn6Df4UyCbK2-BF-tbHiwE2vSCdk&usqp=CAU" alt="Car 3">
+                        <h3>Car 3</h3>
+                        <p>Base Price: $20000</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://images.unsplash.com/photo-1508974239320-0a029497e820?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGNhcnxlbnwwfHwwfHx8MA%3D%3D" alt="Car 3">
+                        <h3>Car 3</h3>
+                        <p>Base Price: $20000</p>
+                    </div> -->
+                </div>
+            </section>
+
+            <!-- Paintings Section -->
+            <section id="paintings-section">
+                <h2>Paintings</h2>
+                <div id="paintings-products" class="products-slider">
+                    <!-- Sample painting images -->
+                    <!-- <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsnwHqRxuk83_x-zbQmDncKTACP0Yra_3ZyQ&s" alt="Painting 1">
+                        <h3>Painting 1</h3>
+                        <p>Base Price: $5000</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://www.inspireuplift.com/resizer/?image=https://cdn.inspireuplift.com/uploads/images/seller_products/1661340363_99.jpg&width=600&height=600&quality=90&format=auto&fit=pad" alt="Painting 2">
+                        <h3>Painting 2</h3>
+                        <p>Base Price: $7000</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLqwHSZBYbCK_jXgHipc83-z4VnggGODIzww&s" alt="Painting 3">
+                        <h3>Painting 3</h3>
+                        <p>Base Price: $9000</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://bigthink.com/wp-content/uploads/2010/05/origin-2.jpg?w=480&h=270&crop=1" alt="Painting 3">
+                        <h3>Painting 3</h3>
+                        <p>Base Price: $9000</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRr2Rm5YSMe7sxLCbdGc6yf93tDIOPBv5itMQ&s" alt="Painting 3">
+                        <h3>Painting 3</h3>
+                        <p>Base Price: $9000</p>
+                    </div> -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 Auction Management System. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Toggle dropdown on button click
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', function (event) {
+            const dropdown = document.getElementById('dropdown');
+            const dropbtn = document.querySelector('.dropbtn');
+            if (!dropdown.contains(event.target) && event.target !== dropbtn) {
+                dropdown.classList.remove('show');
+            }
+        });
+        // Load products into scrollable containers
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/admin/get-pending-products');
+                const data = await response.json();
+
+                const carsContainer = document.getElementById('cars-products');
+                const paintingsContainer = document.getElementById('paintings-products');
+
+                // <div class="product-card" onclick="window.location.href='/admin/product_detail/${product.product_id}'">
+                data.forEach(product => {
+                    const productCard = `
+                        <div class="product-card" onclick="window.location.href='admin/product_details/${product.product_id}'">
+                            <img src="uploads/${product.image}" alt="${product.product_name}">
+                            <h3>${product.product_name}</h3>
+                            <p>Base Price: Rs.${product.base_price}</p>
+                        </div>
+                    `;
+
+                    if (product.category === 'car') {
+                        carsContainer.innerHTML += productCard;
+                    } else if (product.category === 'painting') {
+                        paintingsContainer.innerHTML += productCard;
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        });
+
+    </script>
+</body>
+
+</html>

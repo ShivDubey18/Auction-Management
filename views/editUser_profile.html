@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <style>
+        /* Reset some default styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f7f8fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-top: 70px; /* Adjusted for fixed header */
+        }
+        /* Header styling */
+        header {
+            background-color: #343a40;
+            color: #ecf0f1;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        header .user-menu {
+            position: relative;
+        }
+        header .user-menu button {
+            background-color: #007bff;
+            color: #ecf0f1;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        header .user-menu button:hover {
+            background-color: #0056b3;
+        }
+        header .dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #343a40;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 5px;
+            z-index: 1000;
+            width: 150px;
+        }
+        header .dropdown a {
+            display: block;
+            padding: 10px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        header .dropdown a:hover {
+            background-color: #007bff;
+        }
+        /* Edit form styling */
+        .content {
+            flex: 1;
+            padding: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+        form label {
+            display: block;
+            margin: 15px 0 5px;
+            font-size: 16px;
+            color: #555;
+        }
+        form input[type="text"], form input[type="email"], form input[type="date"], form select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        /* ID proof display */
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+        p strong {
+            color: #333;
+        }
+        p span {
+            color: #888;
+        }
+        /* Save button */
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #1abc9c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #16a085;
+        }
+        /* Footer styling */
+        footer {
+            background-color: #343a40;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 14px;
+            position: relative;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header with title and user dropdown menu -->
+    <header>
+        <div class="logo">Auction Management System</div>
+        <div class="user-menu">
+            <button onclick="toggleDropdown()">User ▼</button>
+            <div class="dropdown" id="userDropdown">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="addProduct.html">Add Product</a>
+                <a href="viewProfile.html">View Profile</a>
+                <a href="logout.html">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Edit profile form section -->
+    <div class="content">
+        <h1>Edit Profile</h1>
+        <form id="profileForm">
+            <label>First Name: <input type="text" id="first_name" name="first_name" required /></label>
+            <label>Last Name: <input type="text" id="last_name" name="last_name" required /></label>
+            <label>Email: <input type="email" id="email" name="email" required /></label>
+            <label>Date of Birth: <input type="date" id="dob" name="dob" required /></label>
+            <label>Phone Number: <input type="text" id="phone_no" name="phone_no" required /></label>
+            <label>Address: <input type="text" id="address" name="address" required /></label>
+            <label>Gender:
+                <select id="gender" name="gender">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </label>
+            
+            <!-- ID Proof and ID Number displayed as non-editable text -->
+            <p><strong>ID Proof:</strong> <span id="id_proof"></span></p>
+            <p><strong>ID Number:</strong> <span id="id_number"></span></p>
+            
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2024 Auction Management System. All rights reserved.
+    </footer>
+
+    <script>
+        // Toggle dropdown visibility
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Hide dropdown if clicked outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.user-menu button')) {
+                document.getElementById('userDropdown').style.display = 'none';
+            }
+        }
+
+        // Fetch user data and display in form
+        document.addEventListener('DOMContentLoaded', async () => {
+            const userId = new URLSearchParams(window.location.search).get('user_id');
+            const response = await fetch(`/user/profile/${userId}`);
+            const user = await response.json();
+
+            document.getElementById('first_name').value = user.first_name;
+            document.getElementById('last_name').value = user.last_name;
+            document.getElementById('email').value = user.email;
+            document.getElementById('dob').value = user.dob;
+            document.getElementById('phone_no').value = user.phone_no;
+            document.getElementById('address').value = user.address;
+            document.getElementById('gender').value = user.gender;
+
+            // Display ID Proof and ID Number as text (non-editable)
+            document.getElementById('id_proof').textContent = user.id_proof;
+            document.getElementById('id_number').textContent = user.id_number;
+        });
+
+        // Handle form submission
+        document.getElementById('profileForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const userId = new URLSearchParams(window.location.search).get('user_id');
+            const formData = {
+                first_name: document.getElementById('first_name').value,
+                last_name: document.getElementById('last_name').value,
+                email: document.getElementById('email').value,
+                dob: document.getElementById('dob').value,
+                phone_no: document.getElementById('phone_no').value,
+                address: document.getElementById('address').value,
+                gender: document.getElementById('gender').value,
+            };
+
+            const response = await fetch(`/user/profile/${userId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+
+            const result = await response.json();
+            alert(result.message);
+
+            if (response.ok) {
+                window.location.href = `viewProfile.html?user_id=${userId}`;
+            }
+        });
+    </script>
+</body>
+</html>
